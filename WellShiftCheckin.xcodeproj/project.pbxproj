@@ -1,0 +1,454 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0900911FE395BEF6FE7F8D7B /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB1237B256327E9CEA6E3F5 /* AppState.swift */; };
+		1515FAC3350DFBDC7AD72E21 /* CatOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC61EEEB5F46B204A3EC08E /* CatOverlayView.swift */; };
+		191B1D44E36EDD76954009A0 /* NotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B094027E93041A64059C388 /* NotionService.swift */; };
+		222097E5B8C7719749BFEE22 /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17954A1AFC22F13591691CC7 /* ClaudeService.swift */; };
+		28C52211D824CCFF124526C0 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E919DEDE988C2B95D2C5DA /* NotificationService.swift */; };
+		4A402B263417BFC46DB28965 /* CatMovementController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845A990D7E9506752FBFFE99 /* CatMovementController.swift */; };
+		50149F4793D5C8B9EF180131 /* CatWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4914E96AC195B8786FF71E8 /* CatWindowController.swift */; };
+		5C6B6F3E328C0128807A8E43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658A5AC70AFB98BE8945721D /* Assets.xcassets */; };
+		64A2EBBFAF9F23A7DD6FCAC0 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047837C16D09844C0904A9FF /* KeychainService.swift */; };
+		77887968FDA2CD4962501963 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D5F1ABE554F0ECE3CB8C7EDF /* README.md */; };
+		7C8CB5417219F52825DB0AE2 /* MenuBarLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C4DA1ACF02CDD475A2636B /* MenuBarLabelView.swift */; };
+		94C6493C94D10BD46998A1FB /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723296EB69E8D419532C8ED6 /* ScheduleManager.swift */; };
+		99C235076A9C50946BF508DE /* WeeklyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46840276D2E304A1A0092ECD /* WeeklyTask.swift */; };
+		A175BB5F11E945B9E2006FD5 /* WellShiftCheckinApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0BC6F214BC4E180808F315 /* WellShiftCheckinApp.swift */; };
+		A36509B39033AFF6ED2AEF30 /* MenuBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45042DD4D6177220281F37D3 /* MenuBarContentView.swift */; };
+		A649F448312B9CAFD905297D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C782B1DF5EC85FF50F43108 /* AppDelegate.swift */; };
+		ACA861327437383C5CD2D26B /* LoginItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CED0F98A46452F38121157 /* LoginItemManager.swift */; };
+		BDD772E9F83BE48AC5BAB64B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8541776281BE016E2B0F24D /* SettingsView.swift */; };
+		CECB4B56EF56169FC669D802 /* CheckInPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA924BF318547C913322F43 /* CheckInPopupView.swift */; };
+		D0BC245B5A64E8178DAD303E /* PomodoroManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09855D01033ECBAD93AC8314 /* PomodoroManager.swift */; };
+		DBAC44B25EE8061EA100E2EE /* PomodoroState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7453C21E884BDBD915F786EB /* PomodoroState.swift */; };
+		EDAF1E5CE13919E55240CD1D /* DemoCheckInPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB077E9672AD05FF68241C1 /* DemoCheckInPopupView.swift */; };
+		F66466A1503447DCB6DFA630 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BDC392694214137164484B /* AppSettings.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		03C4DA1ACF02CDD475A2636B /* MenuBarLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarLabelView.swift; sourceTree = "<group>"; };
+		047837C16D09844C0904A9FF /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		09855D01033ECBAD93AC8314 /* PomodoroManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroManager.swift; sourceTree = "<group>"; };
+		14BDC392694214137164484B /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		17954A1AFC22F13591691CC7 /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
+		3B094027E93041A64059C388 /* NotionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotionService.swift; sourceTree = "<group>"; };
+		41C393C1508781FD5D18F634 /* WellShiftCheckin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WellShiftCheckin.entitlements; sourceTree = "<group>"; };
+		45042DD4D6177220281F37D3 /* MenuBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarContentView.swift; sourceTree = "<group>"; };
+		46840276D2E304A1A0092ECD /* WeeklyTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyTask.swift; sourceTree = "<group>"; };
+		4BB1237B256327E9CEA6E3F5 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		658A5AC70AFB98BE8945721D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6779E00CFED10AB2D3A87BDA /* WellShiftCheckin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WellShiftCheckin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AB077E9672AD05FF68241C1 /* DemoCheckInPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCheckInPopupView.swift; sourceTree = "<group>"; };
+		6F8633A9F9CE2DEF09E5EFF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6FC61EEEB5F46B204A3EC08E /* CatOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatOverlayView.swift; sourceTree = "<group>"; };
+		723296EB69E8D419532C8ED6 /* ScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleManager.swift; sourceTree = "<group>"; };
+		7453C21E884BDBD915F786EB /* PomodoroState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroState.swift; sourceTree = "<group>"; };
+		77E919DEDE988C2B95D2C5DA /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		7C782B1DF5EC85FF50F43108 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		845A990D7E9506752FBFFE99 /* CatMovementController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatMovementController.swift; sourceTree = "<group>"; };
+		A8541776281BE016E2B0F24D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		BBA924BF318547C913322F43 /* CheckInPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInPopupView.swift; sourceTree = "<group>"; };
+		CB0BC6F214BC4E180808F315 /* WellShiftCheckinApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellShiftCheckinApp.swift; sourceTree = "<group>"; };
+		D4914E96AC195B8786FF71E8 /* CatWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatWindowController.swift; sourceTree = "<group>"; };
+		D5F1ABE554F0ECE3CB8C7EDF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E8CED0F98A46452F38121157 /* LoginItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemManager.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0A1F4CE16B03A384DC0705F9 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				161A6182AB914C6F62C467C2 /* WellShiftCheckin */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		161A6182AB914C6F62C467C2 /* WellShiftCheckin */ = {
+			isa = PBXGroup;
+			children = (
+				34A982C98E59B39D4CF6FEAF /* App */,
+				FE4D40287C0137FBDCB4A2B7 /* Models */,
+				AE790239B0CCFBCD2548DDD5 /* Resources */,
+				2B71F8A771AFCE381014A91B /* Services */,
+				EB6596A9FF4B1FD148C6B9B2 /* Views */,
+			);
+			path = WellShiftCheckin;
+			sourceTree = "<group>";
+		};
+		2B71F8A771AFCE381014A91B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				845A990D7E9506752FBFFE99 /* CatMovementController.swift */,
+				17954A1AFC22F13591691CC7 /* ClaudeService.swift */,
+				047837C16D09844C0904A9FF /* KeychainService.swift */,
+				E8CED0F98A46452F38121157 /* LoginItemManager.swift */,
+				77E919DEDE988C2B95D2C5DA /* NotificationService.swift */,
+				3B094027E93041A64059C388 /* NotionService.swift */,
+				09855D01033ECBAD93AC8314 /* PomodoroManager.swift */,
+				723296EB69E8D419532C8ED6 /* ScheduleManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		34A982C98E59B39D4CF6FEAF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				7C782B1DF5EC85FF50F43108 /* AppDelegate.swift */,
+				4BB1237B256327E9CEA6E3F5 /* AppState.swift */,
+				6F8633A9F9CE2DEF09E5EFF8 /* Info.plist */,
+				41C393C1508781FD5D18F634 /* WellShiftCheckin.entitlements */,
+				CB0BC6F214BC4E180808F315 /* WellShiftCheckinApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		3E3EB43FCF12F805B2A364D9 = {
+			isa = PBXGroup;
+			children = (
+				0A1F4CE16B03A384DC0705F9 /* Sources */,
+				782012DADC682067DBC80505 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		782012DADC682067DBC80505 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6779E00CFED10AB2D3A87BDA /* WellShiftCheckin.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AE790239B0CCFBCD2548DDD5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				658A5AC70AFB98BE8945721D /* Assets.xcassets */,
+				D17AA6518CAF38B3EF304BA9 /* CatSprites */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D17AA6518CAF38B3EF304BA9 /* CatSprites */ = {
+			isa = PBXGroup;
+			children = (
+				D5F1ABE554F0ECE3CB8C7EDF /* README.md */,
+			);
+			path = CatSprites;
+			sourceTree = "<group>";
+		};
+		EB6596A9FF4B1FD148C6B9B2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6FC61EEEB5F46B204A3EC08E /* CatOverlayView.swift */,
+				D4914E96AC195B8786FF71E8 /* CatWindowController.swift */,
+				BBA924BF318547C913322F43 /* CheckInPopupView.swift */,
+				6AB077E9672AD05FF68241C1 /* DemoCheckInPopupView.swift */,
+				45042DD4D6177220281F37D3 /* MenuBarContentView.swift */,
+				03C4DA1ACF02CDD475A2636B /* MenuBarLabelView.swift */,
+				A8541776281BE016E2B0F24D /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FE4D40287C0137FBDCB4A2B7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				14BDC392694214137164484B /* AppSettings.swift */,
+				7453C21E884BDBD915F786EB /* PomodoroState.swift */,
+				46840276D2E304A1A0092ECD /* WeeklyTask.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D7D2174A1FB598BBFD1D399A /* WellShiftCheckin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2E61B25FFD7080B670A30CDD /* Build configuration list for PBXNativeTarget "WellShiftCheckin" */;
+			buildPhases = (
+				3B756C428E00E9A506BF5F8C /* Sources */,
+				38A54CD7F8C721312FCEFCFF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WellShiftCheckin;
+			packageProductDependencies = (
+			);
+			productName = WellShiftCheckin;
+			productReference = 6779E00CFED10AB2D3A87BDA /* WellShiftCheckin.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EBC40EB3B7CD2C6469AAE45B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					D7D2174A1FB598BBFD1D399A = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 58888FE989BED4CEB4507EE8 /* Build configuration list for PBXProject "WellShiftCheckin" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 3E3EB43FCF12F805B2A364D9;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 782012DADC682067DBC80505 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D7D2174A1FB598BBFD1D399A /* WellShiftCheckin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		38A54CD7F8C721312FCEFCFF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C6B6F3E328C0128807A8E43 /* Assets.xcassets in Resources */,
+				77887968FDA2CD4962501963 /* README.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3B756C428E00E9A506BF5F8C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A649F448312B9CAFD905297D /* AppDelegate.swift in Sources */,
+				F66466A1503447DCB6DFA630 /* AppSettings.swift in Sources */,
+				0900911FE395BEF6FE7F8D7B /* AppState.swift in Sources */,
+				4A402B263417BFC46DB28965 /* CatMovementController.swift in Sources */,
+				1515FAC3350DFBDC7AD72E21 /* CatOverlayView.swift in Sources */,
+				50149F4793D5C8B9EF180131 /* CatWindowController.swift in Sources */,
+				CECB4B56EF56169FC669D802 /* CheckInPopupView.swift in Sources */,
+				222097E5B8C7719749BFEE22 /* ClaudeService.swift in Sources */,
+				EDAF1E5CE13919E55240CD1D /* DemoCheckInPopupView.swift in Sources */,
+				64A2EBBFAF9F23A7DD6FCAC0 /* KeychainService.swift in Sources */,
+				ACA861327437383C5CD2D26B /* LoginItemManager.swift in Sources */,
+				A36509B39033AFF6ED2AEF30 /* MenuBarContentView.swift in Sources */,
+				7C8CB5417219F52825DB0AE2 /* MenuBarLabelView.swift in Sources */,
+				28C52211D824CCFF124526C0 /* NotificationService.swift in Sources */,
+				191B1D44E36EDD76954009A0 /* NotionService.swift in Sources */,
+				D0BC245B5A64E8178DAD303E /* PomodoroManager.swift in Sources */,
+				DBAC44B25EE8061EA100E2EE /* PomodoroState.swift in Sources */,
+				94C6493C94D10BD46998A1FB /* ScheduleManager.swift in Sources */,
+				BDD772E9F83BE48AC5BAB64B /* SettingsView.swift in Sources */,
+				99C235076A9C50946BF508DE /* WeeklyTask.swift in Sources */,
+				A175BB5F11E945B9E2006FD5 /* WellShiftCheckinApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		995F498594B3CFBE64466E8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		B4D987761D11A072F3D831BB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/WellShiftCheckin/App/WellShiftCheckin.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = N7Q9MKWVJ7;
+				INFOPLIST_FILE = Sources/WellShiftCheckin/App/Info.plist;
+				INFOPLIST_KEY_LSUIElement = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nacchan.wellshift.WellShiftCheckin;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D13DE2CD8F8609C400FCFAF9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		E98E85EE19AAA5418C7E61A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/WellShiftCheckin/App/WellShiftCheckin.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = N7Q9MKWVJ7;
+				INFOPLIST_FILE = Sources/WellShiftCheckin/App/Info.plist;
+				INFOPLIST_KEY_LSUIElement = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nacchan.wellshift.WellShiftCheckin;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2E61B25FFD7080B670A30CDD /* Build configuration list for PBXNativeTarget "WellShiftCheckin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E98E85EE19AAA5418C7E61A6 /* Debug */,
+				B4D987761D11A072F3D831BB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		58888FE989BED4CEB4507EE8 /* Build configuration list for PBXProject "WellShiftCheckin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				995F498594B3CFBE64466E8E /* Debug */,
+				D13DE2CD8F8609C400FCFAF9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EBC40EB3B7CD2C6469AAE45B /* Project object */;
+}
