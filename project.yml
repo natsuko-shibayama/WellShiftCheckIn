@@ -19,9 +19,13 @@ targets:
     type: application
     platform: macOS
     sources:
+      # Sources 配下を再帰取り込み。Resources/ もここで拾われる（Assets.xcassets 等）。
+      # ただし開発用ドキュメントの *.md はアプリ Bundle に不要なので除外する。
+      # （除外しないと CatSprites/README.md と CatSprites/walk/README.md が
+      #  どちらも Contents/Resources/README.md にコピーされ "Multiple commands produce" になる）
       - path: Sources/WellShiftCheckin
-    resources:
-      - path: Sources/WellShiftCheckin/Resources
+        excludes:
+          - "**/*.md"
     info:
       path: Sources/WellShiftCheckin/App/Info.plist
       properties:

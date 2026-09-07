@@ -48,6 +48,17 @@ final class CatMovementController: ObservableObject {
         return CGSize(width: h * aspectRatio, height: h)
     }
 
+    /// Phase 1A: walk スプライト（半リアル猫PNG）の高さを画面高さの何割にするか。
+    /// 実写寄りは大きいと圧迫感が出るため、ベクター猫（`displayHeightRatio`）より小さめが自然。
+    /// **walk スプライトの大きさ調整はここだけ。** 0.45〜0.60 で試せる。
+    var walkSpriteHeightRatio: CGFloat = 0.55
+
+    /// walk スプライトの表示高さ（pt）。幅は画像のアスペクト比に従う（`CatWalkSpriteView`）。
+    var walkSpriteHeight: CGFloat {
+        let base = screenSize.height > 0 ? screenSize.height : 800
+        return max(120, base * walkSpriteHeightRatio)
+    }
+
     /// `walk` の基準速度（pt/sec）。実際の速度は `action.behavior.speedMultiplier` を掛ける。
     private let baseSpeed: CGFloat = 80
 

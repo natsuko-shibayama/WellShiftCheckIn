@@ -17,14 +17,32 @@ struct CatOverlayView: View {
     var body: some View {
         ZStack {
             Color.clear // 窓全体を占有し、.position の座標空間を画面全体に一致させる
-            CatSpriteView(action: movement.action, facingRight: movement.facingRight)
-                .frame(width: movement.displaySize.width, height: movement.displaySize.height)
+            catView
+                // displaySize の枠に「下寄せ」で入れる → 枠の下端＝接地線に足元が揃う。
+                // walk 以外／フォールバック（Canvas）は枠いっぱいに描くので下寄せは影響しない。
+                .frame(width: movement.displaySize.width, height: movement.displaySize.height, alignment: .bottom)
                 .position(x: movement.position.x, y: movement.position.y)
                 .opacity(movement.isVisible ? 1 : 0)
                 .animation(.easeInOut(duration: 0.6), value: movement.isVisible)
         }
         .ignoresSafeArea()
         .allowsHitTesting(false)
+    }
+
+    /// Phase 1A：walk かつ walk 素材があるときだけ半リアル猫スプライト。
+    /// それ以外（walk 以外、または walk 素材なし）は従来の `CatSpriteView`（＝ `CatArtist` フォールバック）。
+    @ViewBuilder
+    private var catView: some View {
+        if movement.action == .walk, let walkFrames = CatSpriteCatalog.shared.frames(for: .walk) {
+            CatWalkSpriteView(
+                frames: walkFrames,
+                fps: CatAction.walk.behavior.fps,
+                facingRight: movement.facingRight,
+                height: movement.walkSpriteHeight
+            )
+        } else {
+            CatSpriteView(action: movement.action, facingRight: movement.facingRight)
+        }
     }
 }
 
