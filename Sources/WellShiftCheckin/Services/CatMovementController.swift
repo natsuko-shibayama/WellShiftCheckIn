@@ -7,14 +7,17 @@ import Combine
 //       アクション別のパラメータは `Models/CatBehavior.swift` に分離した。
 
 /// 6章「休憩中の猫アニメーション」の移動ロジック。
-/// - デスクトップ全体を行動範囲とし、他アプリウィンドウの上に重ならないよう避けて歩く
-/// - 「歩く→座って休む→また歩く」のような緩急をランダムに切り替える
-///
-/// 実装方針：完全な物理演算は行わず、ランダムウォーク＋障害物（他ウィンドウの矩形）回避程度に留める。
+/// - 画面下端（床）をランダムウォークし、「歩く→座って休む→また歩く」の緩急をつける
+/// - 完全な物理演算は行わない
 ///
 /// 行動の選択は `CatBehavior` テーブル駆動。Phase 0 では従来と同じく
 /// 「移動（walk）↔ 休息（sit/lieDown/stretch/groom）の交互」に落ち着くよう
 /// 各 behavior のウェイト・継続時間を設定している。
+///
+/// NOTE: 以前あった「他アプリのウィンドウを避けて歩く」処理は、座標系の取り違えで
+///       猫が固まる原因になっていたため撤去した。休憩中／オーバーレイは最前面・
+///       クリックスルーなので、ウィンドウの前を横切っても作業の邪魔にはならない。
+///       ウィンドウ天面を歩く等は Phase 2 で別途設計する。
 @MainActor
 final class CatMovementController: ObservableObject {
     static let shared = CatMovementController()
@@ -25,21 +28,25 @@ final class CatMovementController: ObservableObject {
     @Published var facingRight: Bool = true
     @Published var isVisible: Bool = false
 
+    // MARK: - 調整ポイント
+
+    /// 画面に描画する猫の大きさ。**見た目のサイズ変更はここだけ触ればよい。**
+    /// （`CatOverlayView` もこの値を参照する。移動計算の余白・床位置もこの値から導出される）
+    let displaySize = CGSize(width: 260, height: 182)
+
+    /// `walk` の基準速度（pt/sec）。実際の速度は `action.behavior.speedMultiplier` を掛ける。
+    private let baseSpeed: CGFloat = 80
+
     /// y方向（画面の上下）にも歩き回るか。
-    /// Phase 0 では `false` 固定＝従来どおり画面下端（床）だけを水平移動する。
-    /// `true` にすると `pickNextTarget()` が床から `verticalRoamRange` の高さ範囲で目標 y を選ぶ。
+    /// `false`＝画面下端（床）だけを水平移動（既定）。`true` で床から最大160ptの高さ範囲を歩く。
     /// （Phase 2 で他ウィンドウの天面を歩く等に発展させるための拡張ポイント）
     var verticalRoamingEnabled = false
-    private let verticalRoamRange: CGFloat = 160
 
-    /// 猫の表示サイズ。`CatOverlayView` もこれを参照する（位置計算と一致させるため）。
-    let catSize = CGSize(width: 200, height: 140)
+    // MARK: -
 
     private var moveTimer: Timer?
     private var actionTimer: Timer?
     private let stepInterval: TimeInterval = 0.05
-    /// `walk` の基準速度（pt/sec）。実際の速度は `action.behavior.speedMultiplier` を掛ける。
-    private let baseSpeed: CGFloat = 60
 
     private var targetPosition: CGPoint?
 
@@ -47,7 +54,7 @@ final class CatMovementController: ObservableObject {
         guard let screen = NSScreen.main else { return }
         if position == .zero {
             let bounds = screen.visibleFrame
-            position = CGPoint(x: bounds.midX, y: bounds.minY + catSize.height)
+            position = CGPoint(x: bounds.midX, y: floorY(in: bounds))
         }
         isVisible = true
         scheduleNextAction()
@@ -103,29 +110,22 @@ final class CatMovementController: ObservableObject {
     private func pickNextTarget() -> CGPoint {
         guard let screen = NSScreen.main else { return position }
         let bounds = screen.visibleFrame
-        guard bounds.width > catSize.width * 2 else { return position }
-        let obstacles = Self.currentWindowFrames()
+        let margin = displaySize.width / 2
+        guard bounds.width > margin * 2 + 40 else { return position }
 
-        let floorY = bounds.minY + catSize.height // 基本は地面（画面下部）を歩く
-        let ceilingY = min(floorY + verticalRoamRange, bounds.maxY - catSize.height)
+        let x = CGFloat.random(in: (bounds.minX + margin)...(bounds.maxX - margin))
+        let floor = floorY(in: bounds)
+        let ceiling = min(floor + 160, bounds.maxY - displaySize.height / 2)
+        let y = (verticalRoamingEnabled && ceiling > floor)
+            ? CGFloat.random(in: floor...ceiling)
+            : floor
+        return CGPoint(x: x, y: y)
+    }
 
-        for _ in 0..<12 {
-            let candidate = CGPoint(
-                x: CGFloat.random(in: bounds.minX + catSize.width...bounds.maxX - catSize.width),
-                y: (verticalRoamingEnabled && ceilingY > floorY)
-                    ? CGFloat.random(in: floorY...ceilingY)
-                    : floorY
-            )
-            let catRect = CGRect(x: candidate.x - catSize.width / 2, y: candidate.y, width: catSize.width, height: catSize.height)
-            let overlapsWindow = obstacles.contains { $0.intersects(catRect) }
-            if !overlapsWindow {
-                return candidate
-            }
-        }
-        // 空きが見つからなくても、多少ウィンドウに重なってでも歩き回る。
-        // （休憩中／オーバーレイは最前面・クリックスルーなので作業の邪魔にはならない）
-        let x = CGFloat.random(in: bounds.minX + catSize.width...bounds.maxX - catSize.width)
-        return CGPoint(x: x, y: floorY)
+    /// 画面下端（床）に立ったときの猫の中心 y。`.position` は中心指定なので、
+    /// 足元が下端に来るよう表示高さの半分ぶん持ち上げる。
+    private func floorY(in bounds: CGRect) -> CGFloat {
+        bounds.minY + displaySize.height / 2
     }
 
     private func stepMove() {
@@ -146,28 +146,4 @@ final class CatMovementController: ObservableObject {
         }
     }
 
-    /// 現在表示されている他アプリのウィンドウ矩形一覧（大まかな回避判定用）。
-    /// CGWindow は左上原点・y 下向きなので、猫の座標系（NSScreen 系・左下原点・y 上向き）へ
-    /// 変換してから返す。※ この変換漏れが原因で、以前はどのウィンドウとも「重なり」判定になり
-    ///   猫がその場から動かないことがあった。
-    private static func currentWindowFrames() -> [CGRect] {
-        guard let infoList = CGWindowListCopyWindowInfo(
-            [.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID
-        ) as? [[String: Any]] else { return [] }
-
-        // グローバル座標の原点は主ディスプレイ。その高さで y を反転する。
-        let primaryHeight = (NSScreen.screens.first { $0.frame.origin == .zero } ?? NSScreen.main)?.frame.height ?? 0
-
-        return infoList.compactMap { info -> CGRect? in
-            guard let boundsDict = info[kCGWindowBounds as String] as? [String: CGFloat] else { return nil }
-            guard let layer = info[kCGWindowLayer as String] as? Int, layer == 0 else { return nil } // 通常のアプリウィンドウのみ
-            let cg = CGRect(
-                x: boundsDict["X"] ?? 0,
-                y: boundsDict["Y"] ?? 0,
-                width: boundsDict["Width"] ?? 0,
-                height: boundsDict["Height"] ?? 0
-            )
-            return CGRect(x: cg.minX, y: primaryHeight - cg.maxY, width: cg.width, height: cg.height)
-        }
-    }
 }

@@ -17,7 +17,7 @@ struct CatOverlayView: View {
     var body: some View {
         GeometryReader { geo in
             CatSpriteView(action: movement.action, facingRight: movement.facingRight)
-                .frame(width: movement.catSize.width, height: movement.catSize.height)
+                .frame(width: movement.displaySize.width, height: movement.displaySize.height)
                 .position(
                     x: movement.position.x,
                     y: geo.size.height - movement.position.y // NSScreen(下原点) → SwiftUI(上原点)
