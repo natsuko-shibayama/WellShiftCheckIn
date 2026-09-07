@@ -1,14 +1,13 @@
 import SwiftUI
+import AppKit
 
 /// 休憩中に画面上を歩き回る猫の見た目。
 ///
-/// 試作版（feature/cute-cat-animation）：
-/// 外部スプライト素材・依存ライブラリを使わず、SwiftUI の `Canvas` で猫をベクター描画し、
-/// `TimelineView(.animation)` の経過時間から歩き・しっぽ・呼吸・まばたきなどを毎フレーム生成している。
-/// アクション（walk / sit / lieDown / stretch / groom）は `CatMovementController` から流し込まれる。
-///
-/// 本番で実写寄りスプライトや Rive/Lottie に差し替える場合も、`CatSpriteView` の中身だけ入れ替えれば
-/// 上位の `CatMovementController` のロジックはそのまま流用できる。
+/// アクション（`CatAction`）と位置は `CatMovementController` から流し込まれる。
+/// 見た目の実体は `CatSpriteView` が担当し、
+/// - `Resources/CatSprites/` に該当アクションのPNG連番があればそれをコマ送り再生
+/// - 無ければ従来のベクター描画（`CatArtist`）へフォールバック
+/// する。Phase 0 では素材未同梱のため常にフォールバック＝従来と同じ見た目。
 struct CatOverlayView: View {
     @ObservedObject var movement = CatMovementController.shared
 
@@ -22,9 +21,57 @@ struct CatOverlayView: View {
     }
 }
 
-// MARK: - 猫スプライト（Canvas 描画）
+// MARK: - 猫スプライト（スプライト再生 or ベクター描画フォールバック）
 
 struct CatSpriteView: View {
+    let action: CatAction
+    let facingRight: Bool
+
+    var body: some View {
+        Group {
+            if let frames = CatSpriteCatalog.shared.frames(for: action) {
+                SpriteAnimationView(
+                    frames: frames,
+                    fps: action.behavior.fps,
+                    loops: action.behavior.loops,
+                    facingRight: facingRight
+                )
+                .id(action) // アクションが変わったら再生位置をリセット
+            } else {
+                // 素材が無いアクションは従来どおりベクター描画へフォールバック
+                VectorCatView(action: action, facingRight: facingRight)
+            }
+        }
+        .allowsHitTesting(false)
+    }
+}
+
+/// PNG連番スプライトのコマ送り再生。
+private struct SpriteAnimationView: View {
+    let frames: [NSImage]
+    let fps: Double
+    let loops: Bool
+    let facingRight: Bool
+
+    @State private var startedAt = Date.timeIntervalSinceReferenceDate
+
+    var body: some View {
+        TimelineView(.animation) { timeline in
+            let elapsed = timeline.date.timeIntervalSinceReferenceDate - startedAt
+            let raw = max(0, Int((elapsed * fps).rounded(.down)))
+            let index = loops ? raw % frames.count : min(raw, frames.count - 1)
+            Image(nsImage: frames[index])
+                .resizable()
+                .interpolation(.high)
+                .scaledToFit()
+                .scaleEffect(x: facingRight ? 1 : -1, y: 1)
+        }
+    }
+}
+
+/// 従来のベクター描画（`TimelineView` + `Canvas` + `CatArtist`）。
+/// スプライト素材が無いときのフォールバックとして常に利用可能。
+private struct VectorCatView: View {
     let action: CatAction
     let facingRight: Bool
 
@@ -42,7 +89,6 @@ struct CatSpriteView: View {
             }
         }
         .drawingGroup()
-        .allowsHitTesting(false)
     }
 }
 
@@ -66,7 +112,8 @@ struct CatArtist {
 
     func draw(in context: inout GraphicsContext) {
         drawGroundShadow(&context)
-        switch action {
+        // 新規アクションも既存5ポーズのいずれかにマッピングして描く（CatAction.artistBase）
+        switch action.artistBase {
         case .walk:    drawWalking(&context)
         case .sit:     drawSitting(&context)
         case .lieDown: drawLying(&context)
@@ -237,8 +284,9 @@ struct CatArtist {
 
     /// 足元にふわっと落ちる楕円の影。歩行中は歩調で少し伸び縮みする。
     private func drawGroundShadow(_ context: inout GraphicsContext) {
-        let pulse = action == .walk ? 1 + sin(time * 15.2) * 0.08 : 1
-        let w = (action == .lieDown || action == .stretch ? 58 : 40) * u * pulse
+        let base = action.artistBase
+        let pulse = base == .walk ? 1 + sin(time * 15.2) * 0.08 : 1
+        let w = (base == .lieDown || base == .stretch ? 58 : 40) * u * pulse
         let rect = CGRect(x: centerX - w / 2, y: groundY - 1.5 * u, width: w, height: 7 * u)
         context.fill(Ellipse().path(in: rect), with: .color(.black.opacity(0.16)))
     }
