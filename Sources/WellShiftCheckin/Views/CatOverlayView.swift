@@ -65,6 +65,7 @@ struct CatArtist {
     private var centerX: CGFloat { size.width / 2 }
 
     func draw(in context: inout GraphicsContext) {
+        drawGroundShadow(&context)
         switch action {
         case .walk:    drawWalking(&context)
         case .sit:     drawSitting(&context)
@@ -94,9 +95,9 @@ struct CatArtist {
 
         // 手前の脚（対角の歩様：後ろ左と前右が同時に出る）
         drawLeg(&context, hipX: centerX - 12 * u, hipY: hipY, phase: time * cadence, color: fur)
-        drawLeg(&context, hipX: centerX + 13 * u, hipY: hipY, phase: time * cadence + .pi, color: fur)
+        drawLeg(&context, hipX: centerX + 12 * u, hipY: hipY, phase: time * cadence + .pi, color: fur)
 
-        let headCenter = CGPoint(x: centerX + 19 * u, y: bodyCenter.y - 7 * u + sin(time * cadence) * 0.6 * u)
+        let headCenter = CGPoint(x: centerX + 21 * u, y: bodyCenter.y - 8 * u + sin(time * cadence) * 0.6 * u)
         drawHead(&context, center: headCenter, tilt: sin(time * 1.7) * 0.05, blink: blink(period: 4.5))
     }
 
@@ -232,6 +233,14 @@ struct CatArtist {
         // 頭を下げて舌でペロペロ
         let headCenter = CGPoint(x: centerX + 11 * u, y: bodyCenter.y - 11 * u + lick * 2.4 * u)
         drawHead(&context, center: headCenter, tilt: 0.55 + lick * 0.05, blink: 1)
+    }
+
+    /// 足元にふわっと落ちる楕円の影。歩行中は歩調で少し伸び縮みする。
+    private func drawGroundShadow(_ context: inout GraphicsContext) {
+        let pulse = action == .walk ? 1 + sin(time * 15.2) * 0.08 : 1
+        let w = (action == .lieDown || action == .stretch ? 58 : 40) * u * pulse
+        let rect = CGRect(x: centerX - w / 2, y: groundY - 1.5 * u, width: w, height: 7 * u)
+        context.fill(Ellipse().path(in: rect), with: .color(.black.opacity(0.16)))
     }
 
     // MARK: - パーツ
