@@ -32,9 +32,11 @@ final class CatMovementController: ObservableObject {
     var verticalRoamingEnabled = false
     private let verticalRoamRange: CGFloat = 160
 
+    /// 猫の表示サイズ。`CatOverlayView` もこれを参照する（位置計算と一致させるため）。
+    let catSize = CGSize(width: 200, height: 140)
+
     private var moveTimer: Timer?
     private var actionTimer: Timer?
-    private let catSize = CGSize(width: 104, height: 72)
     private let stepInterval: TimeInterval = 0.05
     /// `walk` の基準速度（pt/sec）。実際の速度は `action.behavior.speedMultiplier` を掛ける。
     private let baseSpeed: CGFloat = 60
@@ -44,7 +46,8 @@ final class CatMovementController: ObservableObject {
     func start() {
         guard let screen = NSScreen.main else { return }
         if position == .zero {
-            position = CGPoint(x: screen.frame.midX, y: screen.frame.minY + catSize.height)
+            let bounds = screen.visibleFrame
+            position = CGPoint(x: bounds.midX, y: bounds.minY + catSize.height)
         }
         isVisible = true
         scheduleNextAction()
@@ -119,7 +122,10 @@ final class CatMovementController: ObservableObject {
                 return candidate
             }
         }
-        return position // 良い候補が見つからなければ現在地に留まる
+        // 空きが見つからなくても、多少ウィンドウに重なってでも歩き回る。
+        // （休憩中／オーバーレイは最前面・クリックスルーなので作業の邪魔にはならない）
+        let x = CGFloat.random(in: bounds.minX + catSize.width...bounds.maxX - catSize.width)
+        return CGPoint(x: x, y: floorY)
     }
 
     private func stepMove() {
@@ -140,21 +146,28 @@ final class CatMovementController: ObservableObject {
         }
     }
 
-    /// 現在画面に表示されている他アプリのウィンドウ矩形一覧（大まかな回避判定用）
+    /// 現在表示されている他アプリのウィンドウ矩形一覧（大まかな回避判定用）。
+    /// CGWindow は左上原点・y 下向きなので、猫の座標系（NSScreen 系・左下原点・y 上向き）へ
+    /// 変換してから返す。※ この変換漏れが原因で、以前はどのウィンドウとも「重なり」判定になり
+    ///   猫がその場から動かないことがあった。
     private static func currentWindowFrames() -> [CGRect] {
         guard let infoList = CGWindowListCopyWindowInfo(
             [.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID
         ) as? [[String: Any]] else { return [] }
 
+        // グローバル座標の原点は主ディスプレイ。その高さで y を反転する。
+        let primaryHeight = (NSScreen.screens.first { $0.frame.origin == .zero } ?? NSScreen.main)?.frame.height ?? 0
+
         return infoList.compactMap { info -> CGRect? in
             guard let boundsDict = info[kCGWindowBounds as String] as? [String: CGFloat] else { return nil }
             guard let layer = info[kCGWindowLayer as String] as? Int, layer == 0 else { return nil } // 通常のアプリウィンドウのみ
-            return CGRect(
+            let cg = CGRect(
                 x: boundsDict["X"] ?? 0,
                 y: boundsDict["Y"] ?? 0,
                 width: boundsDict["Width"] ?? 0,
                 height: boundsDict["Height"] ?? 0
             )
+            return CGRect(x: cg.minX, y: primaryHeight - cg.maxY, width: cg.width, height: cg.height)
         }
     }
 }
