@@ -33,9 +33,20 @@ final class CatMovementController: ObservableObject {
 
     // MARK: - 調整ポイント
 
-    /// 画面に描画する猫の大きさ。**見た目のサイズ変更はここだけ触ればよい。**
-    /// （`CatOverlayView` もこの値を参照する。移動の余白・床位置もこの値から導出される）
-    let displaySize = CGSize(width: 260, height: 182)
+    /// 猫の高さを画面高さの何割にするか。**見た目の大きさはここだけ触ればよい。**
+    /// 休憩を促したいので大きめ。1.0 に近づけるほど画面いっぱい（ただし大きすぎると歩ける幅が減る）。
+    var displayHeightRatio: CGFloat = 0.7
+
+    /// 猫の縦横比（幅 = 高さ × これ）。
+    private let aspectRatio: CGFloat = 1.43
+
+    /// 実際の描画サイズ（画面サイズ × `displayHeightRatio` から算出）。
+    /// `CatOverlayView` もこの値を参照する。移動の余白・床位置もここから導出される。
+    var displaySize: CGSize {
+        let base = screenSize.height > 0 ? screenSize.height : 800
+        let h = max(160, base * displayHeightRatio)
+        return CGSize(width: h * aspectRatio, height: h)
+    }
 
     /// `walk` の基準速度（pt/sec）。実際の速度は `action.behavior.speedMultiplier` を掛ける。
     private let baseSpeed: CGFloat = 80
