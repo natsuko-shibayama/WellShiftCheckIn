@@ -9,7 +9,7 @@ import AppKit
 /// Assets.xcassets 内の "walk_00", "walk_01", ...               // アセットカタログ
 /// ```
 /// ファイル名は `<spriteName>_<2桁連番>.png`（`spriteName` は `CatBehavior.spriteName`）。
-/// 連番は `_00` から始め、見つからなくなった時点で打ち切る。
+/// 連番は `_00` 始まりでも `_01` 始まりでもよく、見つからなくなった時点で打ち切る。
 ///
 /// **フォールバック契約**：素材が1枚も見つからないアクションでは `frames(for:)` が `nil` を返し、
 /// 呼び出し側（`CatSpriteView`）は必ず既存のベクター描画（`CatArtist`）へフォールバックする。
@@ -48,14 +48,17 @@ final class CatSpriteCatalog {
 
     private func loadFrames(for action: CatAction) -> [NSImage] {
         let name = action.behavior.spriteName
-        var frames: [NSImage] = []
-        var index = 0
-        while index < maxFrames {
-            guard let image = loadFrame(spriteName: name, index: index) else { break }
-            frames.append(image)
-            index += 1
+        // 連番の開始番号は _00 / _01 のどちらも許容する（最初に当たった方を採用）
+        for start in [0, 1] {
+            var frames: [NSImage] = []
+            var index = start
+            while index < start + maxFrames, let image = loadFrame(spriteName: name, index: index) {
+                frames.append(image)
+                index += 1
+            }
+            if !frames.isEmpty { return frames }
         }
-        return frames
+        return []
     }
 
     private func loadFrame(spriteName name: String, index: Int) -> NSImage? {
