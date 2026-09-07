@@ -28,7 +28,7 @@ final class CatMovementController: ObservableObject {
 
     private var moveTimer: Timer?
     private var actionTimer: Timer?
-    private let catSize = CGSize(width: 96, height: 64)
+    private let catSize = CGSize(width: 104, height: 72)
     private let stepInterval: TimeInterval = 0.05
     private let speed: CGFloat = 60 // pt/sec
 
