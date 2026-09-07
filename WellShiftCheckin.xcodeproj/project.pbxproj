@@ -17,7 +17,6 @@
 		5309363DA90B138E71C1FF0E /* CatWalkSpriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E478E218379CB5B441BE0C62 /* CatWalkSpriteView.swift */; };
 		5C6B6F3E328C0128807A8E43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658A5AC70AFB98BE8945721D /* Assets.xcassets */; };
 		64A2EBBFAF9F23A7DD6FCAC0 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047837C16D09844C0904A9FF /* KeychainService.swift */; };
-		77887968FDA2CD4962501963 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D5F1ABE554F0ECE3CB8C7EDF /* README.md */; };
 		7C8CB5417219F52825DB0AE2 /* MenuBarLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C4DA1ACF02CDD475A2636B /* MenuBarLabelView.swift */; };
 		94C6493C94D10BD46998A1FB /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723296EB69E8D419532C8ED6 /* ScheduleManager.swift */; };
 		99C235076A9C50946BF508DE /* WeeklyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46840276D2E304A1A0092ECD /* WeeklyTask.swift */; };
@@ -29,7 +28,6 @@
 		BDD772E9F83BE48AC5BAB64B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8541776281BE016E2B0F24D /* SettingsView.swift */; };
 		CECB4B56EF56169FC669D802 /* CheckInPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA924BF318547C913322F43 /* CheckInPopupView.swift */; };
 		D0BC245B5A64E8178DAD303E /* PomodoroManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09855D01033ECBAD93AC8314 /* PomodoroManager.swift */; };
-		D6C1AB49BA6DF20068E0EBEB /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAACD979F99F3EE44C950A40 /* README.md */; };
 		DBAC44B25EE8061EA100E2EE /* PomodoroState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7453C21E884BDBD915F786EB /* PomodoroState.swift */; };
 		DD202C70A4AEDF78E7F9D5E4 /* CatBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310BD3F986D8285401509564 /* CatBehavior.swift */; };
 		E38E129B13DCAD43242914B0 /* CatAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BC71D3EC2C525FA573D3B7 /* CatAction.swift */; };
@@ -65,8 +63,6 @@
 		BBA924BF318547C913322F43 /* CheckInPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInPopupView.swift; sourceTree = "<group>"; };
 		CB0BC6F214BC4E180808F315 /* WellShiftCheckinApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellShiftCheckinApp.swift; sourceTree = "<group>"; };
 		D4914E96AC195B8786FF71E8 /* CatWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatWindowController.swift; sourceTree = "<group>"; };
-		D5F1ABE554F0ECE3CB8C7EDF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		DAACD979F99F3EE44C950A40 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E478E218379CB5B441BE0C62 /* CatWalkSpriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatWalkSpriteView.swift; sourceTree = "<group>"; };
 		E8CED0F98A46452F38121157 /* LoginItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -145,19 +141,9 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		C057646F8DA9BFF76C2D4EBF /* walk */ = {
-			isa = PBXGroup;
-			children = (
-				DAACD979F99F3EE44C950A40 /* README.md */,
-			);
-			path = walk;
-			sourceTree = "<group>";
-		};
 		D17AA6518CAF38B3EF304BA9 /* CatSprites */ = {
 			isa = PBXGroup;
 			children = (
-				D5F1ABE554F0ECE3CB8C7EDF /* README.md */,
-				C057646F8DA9BFF76C2D4EBF /* walk */,
 			);
 			path = CatSprites;
 			sourceTree = "<group>";
@@ -250,8 +236,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C6B6F3E328C0128807A8E43 /* Assets.xcassets in Resources */,
-				77887968FDA2CD4962501963 /* README.md in Resources */,
-				D6C1AB49BA6DF20068E0EBEB /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
