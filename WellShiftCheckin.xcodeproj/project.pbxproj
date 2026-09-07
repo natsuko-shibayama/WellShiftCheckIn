@@ -20,6 +20,7 @@
 		7C8CB5417219F52825DB0AE2 /* MenuBarLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C4DA1ACF02CDD475A2636B /* MenuBarLabelView.swift */; };
 		94C6493C94D10BD46998A1FB /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723296EB69E8D419532C8ED6 /* ScheduleManager.swift */; };
 		99C235076A9C50946BF508DE /* WeeklyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46840276D2E304A1A0092ECD /* WeeklyTask.swift */; };
+		9E438CBC21DFBFC84A8F6C6C /* CatSpriteCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD628EA6B076D4081C32A82 /* CatSpriteCatalog.swift */; };
 		A175BB5F11E945B9E2006FD5 /* WellShiftCheckinApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0BC6F214BC4E180808F315 /* WellShiftCheckinApp.swift */; };
 		A36509B39033AFF6ED2AEF30 /* MenuBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45042DD4D6177220281F37D3 /* MenuBarContentView.swift */; };
 		A649F448312B9CAFD905297D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C782B1DF5EC85FF50F43108 /* AppDelegate.swift */; };
@@ -28,6 +29,8 @@
 		CECB4B56EF56169FC669D802 /* CheckInPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA924BF318547C913322F43 /* CheckInPopupView.swift */; };
 		D0BC245B5A64E8178DAD303E /* PomodoroManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09855D01033ECBAD93AC8314 /* PomodoroManager.swift */; };
 		DBAC44B25EE8061EA100E2EE /* PomodoroState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7453C21E884BDBD915F786EB /* PomodoroState.swift */; };
+		DD202C70A4AEDF78E7F9D5E4 /* CatBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310BD3F986D8285401509564 /* CatBehavior.swift */; };
+		E38E129B13DCAD43242914B0 /* CatAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BC71D3EC2C525FA573D3B7 /* CatAction.swift */; };
 		EDAF1E5CE13919E55240CD1D /* DemoCheckInPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB077E9672AD05FF68241C1 /* DemoCheckInPopupView.swift */; };
 		F66466A1503447DCB6DFA630 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BDC392694214137164484B /* AppSettings.swift */; };
 /* End PBXBuildFile section */
@@ -38,11 +41,14 @@
 		09855D01033ECBAD93AC8314 /* PomodoroManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroManager.swift; sourceTree = "<group>"; };
 		14BDC392694214137164484B /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		17954A1AFC22F13591691CC7 /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
+		310BD3F986D8285401509564 /* CatBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatBehavior.swift; sourceTree = "<group>"; };
 		3B094027E93041A64059C388 /* NotionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotionService.swift; sourceTree = "<group>"; };
 		41C393C1508781FD5D18F634 /* WellShiftCheckin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WellShiftCheckin.entitlements; sourceTree = "<group>"; };
 		45042DD4D6177220281F37D3 /* MenuBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarContentView.swift; sourceTree = "<group>"; };
 		46840276D2E304A1A0092ECD /* WeeklyTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyTask.swift; sourceTree = "<group>"; };
 		4BB1237B256327E9CEA6E3F5 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		58BC71D3EC2C525FA573D3B7 /* CatAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAction.swift; sourceTree = "<group>"; };
+		5AD628EA6B076D4081C32A82 /* CatSpriteCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatSpriteCatalog.swift; sourceTree = "<group>"; };
 		658A5AC70AFB98BE8945721D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6779E00CFED10AB2D3A87BDA /* WellShiftCheckin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WellShiftCheckin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AB077E9672AD05FF68241C1 /* DemoCheckInPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCheckInPopupView.swift; sourceTree = "<group>"; };
@@ -86,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				845A990D7E9506752FBFFE99 /* CatMovementController.swift */,
+				5AD628EA6B076D4081C32A82 /* CatSpriteCatalog.swift */,
 				17954A1AFC22F13591691CC7 /* ClaudeService.swift */,
 				047837C16D09844C0904A9FF /* KeychainService.swift */,
 				E8CED0F98A46452F38121157 /* LoginItemManager.swift */,
@@ -160,6 +167,8 @@
 			isa = PBXGroup;
 			children = (
 				14BDC392694214137164484B /* AppSettings.swift */,
+				58BC71D3EC2C525FA573D3B7 /* CatAction.swift */,
+				310BD3F986D8285401509564 /* CatBehavior.swift */,
 				7453C21E884BDBD915F786EB /* PomodoroState.swift */,
 				46840276D2E304A1A0092ECD /* WeeklyTask.swift */,
 			);
@@ -240,8 +249,11 @@
 				A649F448312B9CAFD905297D /* AppDelegate.swift in Sources */,
 				F66466A1503447DCB6DFA630 /* AppSettings.swift in Sources */,
 				0900911FE395BEF6FE7F8D7B /* AppState.swift in Sources */,
+				E38E129B13DCAD43242914B0 /* CatAction.swift in Sources */,
+				DD202C70A4AEDF78E7F9D5E4 /* CatBehavior.swift in Sources */,
 				4A402B263417BFC46DB28965 /* CatMovementController.swift in Sources */,
 				1515FAC3350DFBDC7AD72E21 /* CatOverlayView.swift in Sources */,
+				9E438CBC21DFBFC84A8F6C6C /* CatSpriteCatalog.swift in Sources */,
 				50149F4793D5C8B9EF180131 /* CatWindowController.swift in Sources */,
 				CECB4B56EF56169FC669D802 /* CheckInPopupView.swift in Sources */,
 				222097E5B8C7719749BFEE22 /* ClaudeService.swift in Sources */,

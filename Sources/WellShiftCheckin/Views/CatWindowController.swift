@@ -15,7 +15,7 @@ final class CatWindowController {
             createWindow()
         }
         window?.orderFrontRegardless()
-        CatMovementController.shared.start()
+        CatMovementController.shared.start(on: window?.screen ?? NSScreen.main)
     }
 
     func hide() {
