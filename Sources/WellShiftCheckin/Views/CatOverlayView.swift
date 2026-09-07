@@ -8,16 +8,25 @@ import AppKit
 /// - `Resources/CatSprites/` に該当アクションのPNG連番があればそれをコマ送り再生
 /// - 無ければ従来のベクター描画（`CatArtist`）へフォールバック
 /// する。Phase 0 では素材未同梱のため常にフォールバック＝従来と同じ見た目。
+///
+/// 座標系：`CatMovementController` は NSScreen 系（左下原点・y は上向き）で位置を持つ。
+/// SwiftUI の `.position` は左上原点・y は下向きなので、ここで y を反転して橋渡しする。
 struct CatOverlayView: View {
     @ObservedObject var movement = CatMovementController.shared
 
     var body: some View {
-        CatSpriteView(action: movement.action, facingRight: movement.facingRight)
-            .frame(width: 104, height: 72)
-            .position(x: movement.position.x, y: movement.position.y)
-            .opacity(movement.isVisible ? 1 : 0)
-            .animation(.easeInOut(duration: 0.6), value: movement.isVisible)
-            .allowsHitTesting(false)
+        GeometryReader { geo in
+            CatSpriteView(action: movement.action, facingRight: movement.facingRight)
+                .frame(width: 104, height: 72)
+                .position(
+                    x: movement.position.x,
+                    y: geo.size.height - movement.position.y // NSScreen(下原点) → SwiftUI(上原点)
+                )
+                .opacity(movement.isVisible ? 1 : 0)
+                .animation(.easeInOut(duration: 0.6), value: movement.isVisible)
+        }
+        .ignoresSafeArea()
+        .allowsHitTesting(false)
     }
 }
 
