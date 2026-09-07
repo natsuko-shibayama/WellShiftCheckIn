@@ -9,19 +9,17 @@ import AppKit
 /// - 無ければ従来のベクター描画（`CatArtist`）へフォールバック
 /// する。Phase 0 では素材未同梱のため常にフォールバック＝従来と同じ見た目。
 ///
-/// 座標系：`CatMovementController` は NSScreen 系（左下原点・y は上向き）で位置を持つ。
-/// SwiftUI の `.position` は左上原点・y は下向きなので、ここで y を反転して橋渡しする。
+/// 座標系：`CatMovementController` はこのビューと同じ左上原点・y 下向きで位置を持つので、
+/// ここでの座標変換は不要（`.position` にそのまま渡す）。
 struct CatOverlayView: View {
     @ObservedObject var movement = CatMovementController.shared
 
     var body: some View {
-        GeometryReader { geo in
+        ZStack {
+            Color.clear // 窓全体を占有し、.position の座標空間を画面全体に一致させる
             CatSpriteView(action: movement.action, facingRight: movement.facingRight)
                 .frame(width: movement.displaySize.width, height: movement.displaySize.height)
-                .position(
-                    x: movement.position.x,
-                    y: geo.size.height - movement.position.y // NSScreen(下原点) → SwiftUI(上原点)
-                )
+                .position(x: movement.position.x, y: movement.position.y)
                 .opacity(movement.isVisible ? 1 : 0)
                 .animation(.easeInOut(duration: 0.6), value: movement.isVisible)
         }

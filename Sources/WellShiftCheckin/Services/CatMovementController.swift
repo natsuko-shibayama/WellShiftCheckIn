@@ -10,14 +10,17 @@ import Combine
 /// - 画面下端（床）をランダムウォークし、「歩く→座って休む→また歩く」の緩急をつける
 /// - 完全な物理演算は行わない
 ///
-/// 行動の選択は `CatBehavior` テーブル駆動。Phase 0 では従来と同じく
-/// 「移動（walk）↔ 休息（sit/lieDown/stretch/groom）の交互」に落ち着くよう
-/// 各 behavior のウェイト・継続時間を設定している。
+/// 座標系：オーバーレイ窓は対象スクリーン全体を覆い、`CatOverlayView` は SwiftUI の
+/// 左上原点・y 下向きで描画する。**このコントローラも同じ左上原点・y 下向き**で位置を持つ
+/// （＝ビュー側で座標変換しない）。床の高さ・画面端の余白は `displaySize` と
+/// スクリーン情報から導出する。
 ///
-/// NOTE: 以前あった「他アプリのウィンドウを避けて歩く」処理は、座標系の取り違えで
+/// 行動選択は `CatBehavior` テーブル駆動。Phase 0 では従来と同じく
+/// 「移動（walk）↔ 休息（sit/lieDown/stretch/groom）の交互」に落ち着く設定。
+///
+/// NOTE: 以前あった「他アプリのウィンドウを避けて歩く」処理は座標系の取り違えで
 ///       猫が固まる原因になっていたため撤去した。休憩中／オーバーレイは最前面・
 ///       クリックスルーなので、ウィンドウの前を横切っても作業の邪魔にはならない。
-///       ウィンドウ天面を歩く等は Phase 2 で別途設計する。
 @MainActor
 final class CatMovementController: ObservableObject {
     static let shared = CatMovementController()
@@ -31,53 +34,68 @@ final class CatMovementController: ObservableObject {
     // MARK: - 調整ポイント
 
     /// 画面に描画する猫の大きさ。**見た目のサイズ変更はここだけ触ればよい。**
-    /// （`CatOverlayView` もこの値を参照する。移動計算の余白・床位置もこの値から導出される）
+    /// （`CatOverlayView` もこの値を参照する。移動の余白・床位置もこの値から導出される）
     let displaySize = CGSize(width: 260, height: 182)
 
     /// `walk` の基準速度（pt/sec）。実際の速度は `action.behavior.speedMultiplier` を掛ける。
     private let baseSpeed: CGFloat = 80
 
     /// y方向（画面の上下）にも歩き回るか。
-    /// `false`＝画面下端（床）だけを水平移動（既定）。`true` で床から最大160ptの高さ範囲を歩く。
+    /// `false`＝画面下端（床）だけを水平移動（既定）。`true` で床から最大160ptだけ上も歩く。
     /// （Phase 2 で他ウィンドウの天面を歩く等に発展させるための拡張ポイント）
     var verticalRoamingEnabled = false
 
-    // MARK: -
+    // MARK: - 内部状態
 
     private var moveTimer: Timer?
     private var actionTimer: Timer?
     private let stepInterval: TimeInterval = 0.05
-
     private var targetPosition: CGPoint?
 
-    func start() {
-        guard let screen = NSScreen.main else { return }
-        if position == .zero {
-            let bounds = screen.visibleFrame
-            position = CGPoint(x: bounds.midX, y: floorY(in: bounds))
-        }
+    private var isRunning = false
+    /// オーバーレイが乗っている画面のサイズ（＝窓のサイズ）。
+    private var screenSize: CGSize = .zero
+    /// 画面下端の Dock（下配置時）の高さ。0＝サイド配置／自動非表示。
+    private var bottomInset: CGFloat = 0
+
+    // MARK: - ライフサイクル
+
+    /// 休憩開始時に呼ばれる。`PomodoroManager` が休憩中は毎秒 `show()` を呼ぶため、
+    /// **2回目以降の呼び出しはスクリーン情報の更新だけ行い、タイマーは再作成しない**
+    /// （でないと行動タイマーが毎秒リセットされ、猫が一生 sit のまま動かない）。
+    func start(on screen: NSScreen?) {
+        guard let screen else { return }
+        screenSize = screen.frame.size
+        bottomInset = max(0, screen.visibleFrame.minY - screen.frame.minY)
         isVisible = true
-        scheduleNextAction()
-        moveTimer?.invalidate()
-        moveTimer = Timer.scheduledTimer(withTimeInterval: stepInterval, repeats: true) { [weak self] _ in
-            Task { @MainActor in self?.stepMove() }
+
+        guard !isRunning else { return }
+        isRunning = true
+
+        if position == .zero || !CGRect(origin: .zero, size: screenSize).contains(position) {
+            position = CGPoint(x: screenSize.width / 2, y: floorY)
         }
+        action = .sit
+        targetPosition = nil
+        scheduleNextAction()
+        restartMoveTimer()
     }
 
     func stop() {
+        isRunning = false
         isVisible = false
-        moveTimer?.invalidate()
-        moveTimer = nil
-        actionTimer?.invalidate()
-        actionTimer = nil
+        action = .sit
+        targetPosition = nil
+        moveTimer?.invalidate(); moveTimer = nil
+        actionTimer?.invalidate(); actionTimer = nil
     }
+
+    // MARK: - 行動スケジュール
 
     private func scheduleNextAction() {
         actionTimer?.invalidate()
-
-        // 「移動」フェーズと「休息」フェーズを緩急つけて切り替える
         let duration = TimeInterval.random(in: action.behavior.durationRange)
-        actionTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { [weak self] _ in
+        let timer = Timer(timeInterval: duration, repeats: false) { [weak self] _ in
             Task { @MainActor in
                 guard let self else { return }
                 if self.action.behavior.isMoving {
@@ -88,44 +106,55 @@ final class CatMovementController: ObservableObject {
                 self.scheduleNextAction()
             }
         }
+        // ユーザーがスクロール等で操作中でも猫が止まらないよう .common モードで回す
+        RunLoop.main.add(timer, forMode: .common)
+        actionTimer = timer
     }
 
     private func beginRestPhase() {
-        // Phase 0: [.sit, .lieDown, .stretch, .groom] から一様ランダム（従来と同じ）
+        // Phase 0: [.sit, .lieDown, .stretch, .groom] から一様ランダム
         action = CatAction.restingCandidates.randomElement() ?? .sit
         targetPosition = nil
     }
 
     private func beginMovePhase() {
         // Phase 0: 移動系は walk のみ（run/explore/exitScreen は behavior.schedulingWeight = 0）。
-        //
-        // 拡張ポイント：
-        // - run / explore を有効化 → behavior の schedulingWeight を上げるだけでここに入る
-        // - exitScreen を有効化 → ここで画面外を目標にし、到達後（stepMove）に isVisible=false、
-        //   別の端から enterScreen で再登場させる再登場タイマーを追加する
+        // 拡張ポイント：behavior の schedulingWeight を上げれば run/explore もここに入る。
+        // exitScreen を有効化するときは、ここで画面外を目標にし、到達後（stepMove）に
+        // isVisible=false → 別の端から enterScreen で再登場させる再登場タイマーを足す。
         action = CatAction.movingCandidates.randomElement() ?? .walk
         targetPosition = pickNextTarget()
     }
 
-    private func pickNextTarget() -> CGPoint {
-        guard let screen = NSScreen.main else { return position }
-        let bounds = screen.visibleFrame
-        let margin = displaySize.width / 2
-        guard bounds.width > margin * 2 + 40 else { return position }
+    // MARK: - 移動
 
-        let x = CGFloat.random(in: (bounds.minX + margin)...(bounds.maxX - margin))
-        let floor = floorY(in: bounds)
-        let ceiling = min(floor + 160, bounds.maxY - displaySize.height / 2)
-        let y = (verticalRoamingEnabled && ceiling > floor)
-            ? CGFloat.random(in: floor...ceiling)
-            : floor
-        return CGPoint(x: x, y: y)
+    private func restartMoveTimer() {
+        moveTimer?.invalidate()
+        let timer = Timer(timeInterval: stepInterval, repeats: true) { [weak self] _ in
+            Task { @MainActor in self?.stepMove() }
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        moveTimer = timer
     }
 
-    /// 画面下端（床）に立ったときの猫の中心 y。`.position` は中心指定なので、
-    /// 足元が下端に来るよう表示高さの半分ぶん持ち上げる。
-    private func floorY(in bounds: CGRect) -> CGFloat {
-        bounds.minY + displaySize.height / 2
+    /// 猫が床に立ったときの中心 y（左上原点）。足元が Dock の上に来るよう表示高さの半分持ち上げる。
+    private var floorY: CGFloat {
+        max(displaySize.height / 2, screenSize.height - bottomInset - displaySize.height / 2)
+    }
+
+    private func pickNextTarget() -> CGPoint {
+        let margin = displaySize.width / 2
+        guard screenSize.width > margin * 2 + 40 else { return position }
+
+        let x = CGFloat.random(in: margin...(screenSize.width - margin))
+        let y: CGFloat
+        if verticalRoamingEnabled {
+            let lift = min(160, floorY - displaySize.height / 2)
+            y = floorY - CGFloat.random(in: 0...max(0, lift))
+        } else {
+            y = floorY
+        }
+        return CGPoint(x: x, y: y)
     }
 
     private func stepMove() {
@@ -140,10 +169,9 @@ final class CatMovementController: ObservableObject {
             targetPosition = nil
             action = [.sit, .lieDown].randomElement() ?? .sit
         } else {
-            facingRight = dx > 0
+            if abs(dx) > 0.5 { facingRight = dx > 0 }
             position.x += step * (dx / distance)
             position.y += step * (dy / distance)
         }
     }
-
 }
